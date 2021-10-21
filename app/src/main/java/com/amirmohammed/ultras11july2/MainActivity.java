@@ -2,6 +2,8 @@ package com.amirmohammed.ultras11july2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,36 +11,45 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.amirmohammed.ultras11july2.databinding.ActivityMainBinding;
 import com.amirmohammed.ultras11july2.room.ITasksDao;
 import com.amirmohammed.ultras11july2.room.Task;
 import com.amirmohammed.ultras11july2.room.TasksDatabase;
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// enable dataBinding in gradle > synNow
+// convert layout to dataBindingLayout > alt + enter in the first line
+// using binding in java code > LayoutNameBinding
 public class MainActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
+//    RecyclerView recyclerView;
     List<Task> tasks;
     TasksAdapter tasksAdapter;
+
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
+         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        recyclerView = findViewById(R.id.rv_tasks);
+
+//        recyclerView = findViewById(R.id.rv_tasks);
 
         tasks = TasksDatabase.getInstance(this).tasksDao().getActiveTasks();
 
         tasksAdapter = new TasksAdapter(tasks);
-        recyclerView.setAdapter(tasksAdapter);
+        binding.rvTasks.setAdapter(tasksAdapter);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+//        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
 
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        binding.bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 item.setChecked(true);
@@ -46,15 +57,15 @@ public class MainActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.item_tasks) {
                     tasks = TasksDatabase.getInstance(MainActivity.this).tasksDao().getActiveTasks();
                     tasksAdapter = new TasksAdapter(tasks);
-                    recyclerView.setAdapter(tasksAdapter);
+                    binding.rvTasks.setAdapter(tasksAdapter);
                 } else if (item.getItemId() == R.id.item_done) {
                     tasks = TasksDatabase.getInstance(MainActivity.this).tasksDao().getDoneTasks();
                     tasksAdapter = new TasksAdapter(tasks);
-                    recyclerView.setAdapter(tasksAdapter);
+                    binding.rvTasks.setAdapter(tasksAdapter);
                 } else if (item.getItemId() == R.id.item_archive) {
                     tasks = TasksDatabase.getInstance(MainActivity.this).tasksDao().getArchiveTasks();
                     tasksAdapter = new TasksAdapter(tasks);
-                    recyclerView.setAdapter(tasksAdapter);
+                    binding.rvTasks.setAdapter(tasksAdapter);
                 }
 
                 return false;
@@ -78,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(binding.rvTasks);
     }
 
     public void insertTask(View view) {
@@ -90,9 +101,14 @@ public class MainActivity extends AppCompatActivity {
         public void onTaskInserted() {
             tasks = TasksDatabase.getInstance(MainActivity.this).tasksDao().getActiveTasks();
             tasksAdapter = new TasksAdapter(tasks);
-            recyclerView.setAdapter(tasksAdapter);
+            binding.rvTasks.setAdapter(tasksAdapter);
 
         }
     };
+
+    @BindingAdapter("glide")
+    public static void setImageUrl(ImageView imageView, String imageUrl){
+        Glide.with(imageView).load(imageUrl).into(imageView);
+    }
 
 }

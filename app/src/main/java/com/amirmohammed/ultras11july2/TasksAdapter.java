@@ -7,8 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amirmohammed.ultras11july2.databinding.ItemTaskBinding;
 import com.amirmohammed.ultras11july2.room.Task;
 import com.amirmohammed.ultras11july2.room.TasksDatabase;
 
@@ -26,18 +28,21 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
     @NonNull
     @Override
     public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TaskHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false));
+        ItemTaskBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.item_task, parent, false);
+        return new TaskHolder(binding);
+//        return new TaskHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
         Task task = taskArrayList.get(position);
+        holder.binding.setTask(task);
 
-        holder.textViewTitle.setText(position);
-        holder.textViewDate.setText("Date : " + task.getDate());
-        holder.textViewTime.setText("Time : " + task.getTime());
+//        holder.binding.taskTitle.setText(task.getTitle());
+//        holder.binding.taskDate.setText("Date : " + task.getDate());
+//        holder.binding.taskTitle.setText("Time : " + task.getTime());
 
-        holder.imageViewDone.setOnClickListener(new View.OnClickListener() {
+        holder.binding.done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 task.setStatusDone();
@@ -47,7 +52,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
             }
         });
 
-        holder.imageViewArchive.setOnClickListener(new View.OnClickListener() {
+        holder.binding.archive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 task.setStatusArchive();
@@ -65,17 +70,19 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
 
 
     class TaskHolder extends RecyclerView.ViewHolder {
-        ImageView imageViewDone, imageViewArchive;
-        TextView textViewTitle, textViewDate, textViewTime;
+        ItemTaskBinding binding;
+//        ImageView imageViewDone, imageViewArchive;
+//        TextView textViewTitle, textViewDate, textViewTime;
 
-        public TaskHolder(@NonNull View itemView) {
-            super(itemView);
+        public TaskHolder(@NonNull ItemTaskBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
 
-            imageViewDone = itemView.findViewById(R.id.done);
-            imageViewArchive = itemView.findViewById(R.id.archive);
-            textViewTitle = itemView.findViewById(R.id.task_title);
-            textViewDate = itemView.findViewById(R.id.task_date);
-            textViewTime = itemView.findViewById(R.id.task_time);
+//            imageViewDone = itemView.findViewById(R.id.done);
+//            imageViewArchive = itemView.findViewById(R.id.archive);
+//            textViewTitle = itemView.findViewById(R.id.task_title);
+//            textViewDate = itemView.findViewById(R.id.task_date);
+//            textViewTime = itemView.findViewById(R.id.task_time);
         }
 
     }
