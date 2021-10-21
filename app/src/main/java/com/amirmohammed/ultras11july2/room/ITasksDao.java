@@ -1,5 +1,4 @@
 package com.amirmohammed.ultras11july2.room;
-
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -19,7 +18,6 @@ public interface ITasksDao {
 
     @Query("SELECT * FROM tasks WHERE status = 'archive' ")
     List<Task> getArchiveTasks();
-
 
     @Query("DELETE FROM tasks")
     void deleteAll();

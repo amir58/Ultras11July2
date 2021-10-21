@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_tasks"
+        tools:listitem="@layout/item_task"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottom_nav"
         android:layout_width="match_parent"
@@ -24,6 +28,7 @@
         android:src="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toTopOf="@id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="insertTask"
         android:layout_margin="10dp"
         android:layout_height="wrap_content"/>
 

@@ -7,6 +7,7 @@
     app:cardCornerRadius="10dp">
 
     <LinearLayout
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -17,6 +18,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/task_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -24,6 +26,7 @@
                 android:textSize="22sp" />
 
             <ImageView
+                android:id="@+id/done"
                 android:tint="#2962FF"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -32,6 +35,7 @@
                 android:src="@drawable/ic_baseline_done_all_24" />
 
             <ImageView
+                android:id="@+id/archive"
                 android:tint="#2962FF"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
@@ -48,6 +52,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/task_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -55,6 +60,7 @@
                 android:textSize="18dp" />
 
             <TextView
+                android:id="@+id/task_time"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
